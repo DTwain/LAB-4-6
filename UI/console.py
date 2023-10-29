@@ -24,7 +24,8 @@ def meniu():
     print("5. Filtrari:")
     print("     5.1 Elimină toate tranzacțiile de un anumit tip")
     print("     5.2 Elimină toate tranzacțiile mai mici decât o sumă dată care au tipul specificat\n")
-    print("6. UNDO\n")
+    print("6. UNDO:")
+    print("     6.0 UNDO")
 
 tranzactii = []
 tranzactii_anterioare = [] 
@@ -42,7 +43,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)  
+            tranzactii_anterioare.append(tranzactii)
 
     elif operatie == 1.2:
         print("Alege tranzactia pe care vrei sa o modifici: \n")
@@ -173,7 +174,6 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
     elif operatie == 5.1:
         opp(2.3)
@@ -194,10 +194,13 @@ def opp(operatie):
             
     
     elif operatie == 6:
-        if len(tranzactii_anterioare) == 0:
+        if len(tranzactii_anterioare) == 1:
             print("Ai ajuns la inceput!")
+        elif len(tranzactii_anterioare) == 0:
+            print("NU SE POATE DA UNDO!!")
         else:
             tranzactii = tranzactii_anterioare[-1]
+            output(tranzactii_anterioare[-1])
             tranzactii_anterioare.pop()
         
 
@@ -207,7 +210,7 @@ def run_console(nr_crt = 1):
     operatie = input(f"\n{nr_crt}.Introduceti operatia dorita SUB FORMA   A.B  : ")
     if operatie_de_forma_A_B(operatie):
         operatie = float(operatie)
-    while not operatie in [1.1, 1.2, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 4.1, 4.2, 4.3, 5.1, 5.2, 6] :
+    while not operatie in [1.1, 1.2, 2.1, 2.2, 2.3, 3.1, 3.2, 3.3, 4.1, 4.2, 4.3, 5.1, 5.2, 6.0] :
         print("Operatie invalida!")
         operatie = input(f"{nr_crt}Introduceti operatia dorita SUB FORMA   A.B  : ")
         if operatie_de_forma_A_B(operatie):
