@@ -32,7 +32,7 @@ def tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii: list) -> {bool, l
     if tip.upper() == "IN" or tip.upper() == "OUT":
         new_list_of_tranzaction = []
         for elem in tranzactii:
-            if elem["tip"] == tip.upper():
+            if elem["tip"] == tip.upper(): 
                 new_list_of_tranzaction.append(elem)
         new_list_of_tranzaction = sortare_lista_crescator.sortare_crescatoare_lista(new_list_of_tranzaction)
         return new_list_of_tranzaction

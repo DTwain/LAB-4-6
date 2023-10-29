@@ -25,20 +25,23 @@ def meniu():
     print("     5.2 Elimină toate tranzacțiile mai mici decât o sumă dată care au tipul specificat\n")
     print("6. UNDO\n")
 
-tranzactii = []  
+tranzactii = []
+tranzactii_anterioare = [] 
 def opp(operatie):
     global tranzactii
+    global tranzactii_anterioare
     if operatie == 1.1:
         print("Adaugare tranzactie:\n")
         data = input("Introduceti data sub forma DD/MM/YYYY: ")
         suma = input("Introduceti suma: ")
         tip = input("Introduceti tipul: IN/OUT: ")
-        rezultat_operatie = add_and_mod_tranzactii.add_tranzaction(data, suma, tip)
+        rezultat_operatie = add_and_mod_tranzactii.add_tranzaction(data, suma, tip, tranzactii)
         if rezultat_operatie == False:
             print("DATE INVALIDE!!\n")
             opp(operatie)
         else:
-            tranzactii = rezultat_operatie  
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)  
 
     elif operatie == 1.2:
         print("Alege tranzactia pe care vrei sa o modifici: \n")
@@ -54,6 +57,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(tranzactii)
     
     elif operatie == 2.1:
@@ -66,6 +70,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(tranzactii)
 
     elif operatie == 2.2:
@@ -79,6 +84,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(tranzactii)
 
     elif operatie == 2.3:
@@ -91,6 +97,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(tranzactii)
         
     elif operatie == 3.1:
@@ -102,6 +109,8 @@ def opp(operatie):
             print("SUMA ALEASA ESTE MAI MARE DECAT SUMA ORICAREI TRANZACTII!!\n")
             opp(operatie)
         else:
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
     
     elif operatie == 3.2:
@@ -114,6 +123,8 @@ def opp(operatie):
             print("DATELE INTRODUSE SUNT INVALIDE\n")
             opp(operatie)
         else:
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
 
     elif operatie == 3.3:
@@ -125,6 +136,8 @@ def opp(operatie):
             print("TIPUL INTRODUS ESTE INVALID!!")
             opp(operatie)
         else:
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
 
     elif operatie == 4.1:
@@ -158,6 +171,8 @@ def opp(operatie):
             print("TIPUL INTRODUS ESTE INVALID")
             opp(operatie)
         else:
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
     elif operatie == 5.1:
         opp(2.3)
@@ -172,10 +187,18 @@ def opp(operatie):
             print("DATELE INTRODUSE SUNT INVALIDE")
             opp(operatie)
         else:
+            tranzactii = rezultat_operatie
+            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
+            
     
     elif operatie == 6:
-        pass
+        if len(tranzactii_anterioare) == 0:
+            print("Ai ajuns la inceput!")
+        else:
+            tranzactii = tranzactii_anterioare[-1]
+            tranzactii_anterioare.pop()
+        
 
 def run_console(nr_crt = 1):
     if nr_crt == 1:

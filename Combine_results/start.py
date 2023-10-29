@@ -28,4 +28,5 @@ def operatie_de_forma_A_B(operatie):
         if operatie[i] != '.':
             if operatie[i] < '0' or operatie[i] > '9':
                 return False
+    return True
 

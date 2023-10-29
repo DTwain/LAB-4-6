@@ -1,5 +1,5 @@
 from Intrastructura import *
-def add_tranzaction(data, suma, tip, tranzactii: list) -> {dict, bool} :
+def add_tranzaction(data, suma, tip, tranzactii: list) -> {list, bool} :
     if corectitudine_data.data_valida(data) :
         if corectitudine_suma.suma_valida(suma) :
             if tip.upper() == "IN" or tip.upper() == "OUT":
