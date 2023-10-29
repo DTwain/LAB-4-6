@@ -2,7 +2,8 @@
 Interfata aplicatiei in terminal 
 """
 from Aplicatie import *
-from Combine_results.start import *
+from Afis_verifica.output_verify_opp import operatie_de_forma_A_B
+from Afis_verifica.output_verify_opp import output 
 def meniu():
     print("Bine ati venit!")
     print("1. Adaugare de noi tranzactii:")

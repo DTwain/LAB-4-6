@@ -1,16 +1,3 @@
-from Aplicatie import * # dau import la toate fisierele pe care le-am declarat in __init__.py
-from Intrastructura.corectitudine_data import data_valida
-
-def linker(operatie, dict_of_tranzaction_data : dict, tranzactii : list) :
-    """
-    Functia va apela celelalte functii din modulul Aplicatie
-    in functie de alegerea utilizatorului
-    """
-    if operatie == 1.1:
-        tranzactii.append(dict_of_tranzaction_data)
-
-    return tranzactii
-
 def output(tranzactii: list):
     dimensiune = len(tranzactii)
     if dimensiune == 0:
