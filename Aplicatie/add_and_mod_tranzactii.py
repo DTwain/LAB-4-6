@@ -15,7 +15,7 @@ def update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii : list ) -> {l
                 tranzactii[nr_tranzactie]= {'data': get_data.get_data_with_default_format(data),'suma': suma, 'tip': tip.upper()}
                 return tranzactii
     return False 
-    
+
 def test_add_tranzaction():
     assert add_tranzaction("12/3/2019", "123", "IN", []) == [{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
     assert add_tranzaction("12/3/2019", "123.12", "OUT", []) == [{'data': "12/3/2019",'suma': "123.12", 'tip': "OUT"}]

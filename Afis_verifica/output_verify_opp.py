@@ -1,7 +1,7 @@
 def output(tranzactii: list):
     dimensiune = len(tranzactii)
     if dimensiune == 0:
-        print("Nu exista tranzactii!\n")
+        print("\nNu exista tranzactii!\n")
     else:
         for poz in range(dimensiune):
             print("Tranzactia ", poz + 1, ":")
@@ -16,4 +16,3 @@ def operatie_de_forma_A_B(operatie):
             if operatie[i] < '0' or operatie[i] > '9':
                 return False
     return True
-

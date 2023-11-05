@@ -29,6 +29,7 @@ def meniu():
 
 tranzactii = []
 tranzactii_anterioare = [] 
+operatie_anterioara = 0
 def opp(operatie):
     global tranzactii
     global tranzactii_anterioare
@@ -43,7 +44,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
 
     elif operatie == 1.2:
         print("Alege tranzactia pe care vrei sa o modifici: \n")
@@ -59,7 +60,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
     
     elif operatie == 2.1:
@@ -72,7 +73,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
 
     elif operatie == 2.2:
@@ -86,7 +87,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
 
     elif operatie == 2.3:
@@ -99,7 +100,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
         
     elif operatie == 3.1:
@@ -112,7 +113,6 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
     
     elif operatie == 3.2:
@@ -126,7 +126,6 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
 
     elif operatie == 3.3:
@@ -139,7 +138,6 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
             output(rezultat_operatie)
 
     elif operatie == 4.1:
@@ -189,22 +187,16 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(tranzactii)
+            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(rezultat_operatie)
             
-    
-    elif operatie == 6:
-        if len(tranzactii_anterioare) == 1:
-            print("Ai ajuns la inceput!")
-        elif len(tranzactii_anterioare) == 0:
-            print("NU SE POATE DA UNDO!!")
-        else:
-            tranzactii = tranzactii_anterioare[-1]
-            output(tranzactii_anterioare[-1])
-            tranzactii_anterioare.pop()
-        
+    elif operatie == 6.0:
+        tranzactii = undo.tranzactie_anterioara_in_functie_de_ultima_operatie(tranzactii_anterioare, operatie_anterioara)
+        tranzactii_anterioare = undo.tranzactii_anterioare_in_functie_de_ultima_operatie_efectuata(tranzactii_anterioare, operatie_anterioara)
+        output(tranzactii)
 
 def run_console(nr_crt = 1):
+    global operatie_anterioara
     if nr_crt == 1:
         meniu()
     operatie = input(f"\n{nr_crt}.Introduceti operatia dorita SUB FORMA   A.B  : ")
@@ -217,7 +209,7 @@ def run_console(nr_crt = 1):
             operatie = float(operatie)
 
     opp(operatie)
-
+    operatie_anterioara = operatie
     rep = input("\nDoriti sa mai efectuati o operatie? da/nu: ")
     rep = rep.lower()
     if rep == "da":
