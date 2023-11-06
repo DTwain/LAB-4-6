@@ -27,6 +27,12 @@ def meniu():
     print("6. UNDO:")
     print("     6.0 UNDO")
 
+"""
+ADD 12/3/2002 1000 IN 
+
+"""
+
+
 tranzactii = []
 tranzactii_anterioare = [] 
 operatie_anterioara = 0
@@ -67,7 +73,7 @@ def opp(operatie):
         print("Alege data din care vrei sa stergi tranzactiile: \n")
         output(tranzactii)
         data = input("Introduceti data sub forma DD/MM/YYYY: ")
-        rezultat_operatie = stergere_tranzactii.filtrare_tranzactii_dupa_data(data, tranzactii)
+        rezultat_operatie = stergere_tranzactii.stergere_tranzactii_dupa_data(data, tranzactii)
         if rezultat_operatie == False:
             print("DATA ALEASA NU ESTE VALIDA!!\n")
             opp(operatie)
@@ -81,7 +87,7 @@ def opp(operatie):
         output(tranzactii)
         data_start = input("Introduceti data de inceput sub forma DD/MM/YYYY: ")
         data_end = input("Introduceti data de sfarsit sub forma DD/MM/YYYY: ")
-        rezultat_operatie = stergere_tranzactii.filtrare_tranzactii_dupa_perioada(data_start, data_end, tranzactii)
+        rezultat_operatie = stergere_tranzactii.stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii)
         if rezultat_operatie == False:
             print("PERIOADA ALEASA NU ESTE VALIDA!!\n")
             opp(operatie)
@@ -94,7 +100,7 @@ def opp(operatie):
         print("Alege tipul tranzactiilor pe care vrei sa le stergi: \n")
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
-        rezultat_operatie = stergere_tranzactii.filtrare_tranzactii_dupa_tip(tip, tranzactii)
+        rezultat_operatie = stergere_tranzactii.stergere_tranzactii_dupa_tip(tip, tranzactii)
         if rezultat_operatie == False:
             print("TIPUL ALES NU ESTE VALID!!\n")
             opp(operatie)
@@ -174,7 +180,16 @@ def opp(operatie):
             tranzactii = rezultat_operatie
             output(rezultat_operatie)
     elif operatie == 5.1:
-        opp(2.3)
+        print("Alege tipul tranzactiilor pe care doresti sa nu le ai in lista de tranzactii: \n")
+        output(tranzactii)
+        tip = input("Introduceti tipul: IN/OUT: ")
+        rezultat_operatie = filtrare.filtrare_tranzactii_dupa_tip(tip, tranzactii)
+        if rezultat_operatie == False:
+            print("TIPUL ALES NU ESTE VALID!!\n")
+            opp(operatie)
+        else:
+            tranzactii = rezultat_operatie
+            output(tranzactii)
     elif operatie == 5.2:
         ##5.2 Elimină toate tranzacțiile mai mici decât o sumă dată care au tipul specificat
         print("Alegeti suma si tipul dupa care sa se filtreze tranzactiile:")
@@ -187,7 +202,6 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
             output(rezultat_operatie)
             
     elif operatie == 6.0:

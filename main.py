@@ -1,3 +1,9 @@
 from UI.console import run_console
+from UI.batch import run_batch
 
-run_console() 
+tip_meniu = input("Alege tipul meniului ( CONSOLE / BATCH ): ")
+
+if tip_meniu == "CONSOLE":
+    run_console()
+else :
+    run_batch() 

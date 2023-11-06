@@ -1,5 +1,5 @@
-import re
-def get_data_with_default_format(data):
+import re # regular expression
+def get_data_with_default_format(data): # data = "12:12.2000" -> "12/12/2000"
     zi_luna_an = re.split(r'[:./]', data)
     data = zi_luna_an[0] + "/" + zi_luna_an[1] + "/" + zi_luna_an[2] 
     return data

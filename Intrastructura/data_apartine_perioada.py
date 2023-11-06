@@ -1,7 +1,7 @@
 def verify_data_is_in_range(data_left, data_test, data_right) -> bool: 
     # verifica daca data este in perioada data
     data_left = data_left.split("/")
-    data_right = data_right.split("/")
+    data_right = data_right.split("/") # 12/2/2020 -> ["12", "2", "2020"]
     data_test = data_test.split("/")
     data_left = [int(data_left[0]), int(data_left[1]), int(data_left[2])]
     data_right = [int(data_right[0]), int(data_right[1]), int(data_right[2])]
