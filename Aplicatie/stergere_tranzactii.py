@@ -6,11 +6,7 @@ def stergere_tranzactii_dupa_data(data, tranzactii: list) -> {bool, list}:
         idx = 0
         while not idx == len(tranzactii):
             if tranzactii[idx]["data"] == data:
-                copie_idx = 0
-                while not copie_idx + 1 == len(tranzactii):
-                    tranzactii[copie_idx] = tranzactii[copie_idx + 1]
-                    copie_idx += 1
-                tranzactii.pop()
+                tranzactii.pop(idx)
             else: 
                 idx += 1
         return tranzactii
@@ -28,11 +24,7 @@ def stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii: list) ->
             idx = 0
             while not idx == len(tranzactii):
                 if data_apartine_perioada.verify_data_is_in_range(data_start, tranzactii[idx]["data"], data_end):
-                    copie_idx = 0
-                    while not copie_idx + 1 == len(tranzactii):
-                        tranzactii[copie_idx] = tranzactii[copie_idx + 1]
-                        copie_idx += 1
-                    tranzactii.pop()
+                    tranzactii.pop(idx)
                 else: 
                     idx += 1
         return tranzactii
@@ -46,11 +38,7 @@ def stergere_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
         idx = 0
         while not idx == len(tranzactii):
             if tranzactii[idx]["tip"] == tip.upper():
-                copie_idx = 0
-                while not copie_idx + 1 == len(tranzactii):
-                    tranzactii[copie_idx] = tranzactii[copie_idx + 1]
-                    copie_idx += 1
-                tranzactii.pop()
+                tranzactii.pop(idx)
             else: 
                 idx += 1
         return tranzactii
