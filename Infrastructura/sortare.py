@@ -1,4 +1,5 @@
-from Intrastructura import data_apartine_perioada
+from Infrastructura import data_apartine_perioada
+
 def sortare_crescatoare_lista(tranzactii: list) -> list:
     for i in range(len(tranzactii)-1):
         for j in range(i+1, len(tranzactii)):

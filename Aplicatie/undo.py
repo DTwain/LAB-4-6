@@ -1,9 +1,10 @@
-from Intrastructura import get_data
-
+from Infrastructura import data_default
+from Aplicatie.getter_setter_creaza_tranz import creaza_tranzactie, set_tranzactii, get_data, get_suma, get_tip
 def tranzactii_prelucrate(tranzactii : list) -> list:
     tranzactii_prelucrate = []
     for tranzactie in tranzactii:
-        tranzactii_prelucrate.append({'data': get_data.get_data_with_default_format(tranzactie['data']),'suma': tranzactie['suma'], 'tip': tranzactie['tip']})
+        tranzactie_noua = creaza_tranzactie(data_default.get_data_with_default_format(get_data(tranzactie)), get_suma(tranzactie), get_tip(tranzactie))
+        tranzactii_prelucrate = set_tranzactii(tranzactii_prelucrate, tranzactie_noua)
     return tranzactii_prelucrate
 
 def tranzactie_anterioara_in_functie_de_ultima_operatie(tranzactii_anterioare : list, operatie_anterioara: float):

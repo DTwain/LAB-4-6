@@ -1,4 +1,5 @@
-from Intrastructura import *
+from Infrastructura import *
+from Aplicatie.getter_setter_creaza_tranz import *
 def filtrare_tranzactii_mai_mari_decat_suma(suma, tranzactii: list) -> {bool, list}:
     """
     functie care returneaza tranzactiile mai mari decat suma data
@@ -8,9 +9,9 @@ def filtrare_tranzactii_mai_mari_decat_suma(suma, tranzactii: list) -> {bool, li
     """
     if corectitudine_suma.suma_valida(suma) or suma == "0":
         tranzactii_mai_mari_decat_suma = []
-        for pozitie in range(len(tranzactii)):
-            if float(tranzactii[pozitie]["suma"]) > float(suma):
-                tranzactii_mai_mari_decat_suma.append(tranzactii[pozitie])
+        for tranzactie in tranzactii:
+            if float(get_suma(tranzactie)) > float(suma):
+                tranzactii_mai_mari_decat_suma = set_tranzactii(tranzactii_mai_mari_decat_suma, tranzactie)
         return tranzactii_mai_mari_decat_suma
     else:
         return False
@@ -25,11 +26,11 @@ def filtrare_tranzactii_dupa_data_si_suma(data, suma, tranzactii: list) -> {bool
     """
     if corectitudine_suma.suma_valida(suma) or suma == "0":
         if corectitudine_data.data_valida(data):
-            data = get_data.get_data_with_default_format(data)
+            data = data_default.get_data_with_default_format(data)
             tranzactii_mai_mari_decat_suma_mai_mici_decat_data = []
-            for pozitie in range(len(tranzactii)):
-                if float(tranzactii[pozitie]["suma"]) > float(suma) and data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(tranzactii[pozitie]["data"], data):
-                    tranzactii_mai_mari_decat_suma_mai_mici_decat_data.append(tranzactii[pozitie])
+            for tranzactie in tranzactii:
+                if float(get_suma(tranzactie)) > float(suma) and data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(get_data(tranzactie), data):
+                    tranzactii_mai_mari_decat_suma_mai_mici_decat_data = set_tranzactii(tranzactii_mai_mari_decat_suma_mai_mici_decat_data, tranzactie)
             return tranzactii_mai_mari_decat_suma_mai_mici_decat_data
     return False
 
@@ -43,9 +44,9 @@ def filtrare_tranzactii_dupa_tip(tip_ales:str, tranzactii: list) -> {bool, list}
     if tip_ales.upper() == "IN" or tip_ales.upper() == "OUT":
         tranzactii_cu_tipul_dorit = []
         dimensiune = len(tranzactii)
-        for pozitie in range(dimensiune):
-            if tranzactii[pozitie]["tip"] == tip_ales.upper():
-                tranzactii_cu_tipul_dorit.append(tranzactii[pozitie])
+        for tranzactie in tranzactii:
+            if get_tip(tranzactie) == tip_ales.upper():
+                tranzactii_cu_tipul_dorit = set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
         return tranzactii_cu_tipul_dorit
     return False
 

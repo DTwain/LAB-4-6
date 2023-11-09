@@ -1,5 +1,5 @@
 from Aplicatie import *
-from Intrastructura import *
+from Infrastructura import *
 from Afis_verifica.output_verify_opp import output
 def run_batch():
     el = input("Introdu comenzile dorite: ").split()

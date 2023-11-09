@@ -1,46 +1,55 @@
-from Intrastructura import *
+from Infrastructura import *
+from Aplicatie.getter_setter_creaza_tranz import *
 def stergere_tranzactii_dupa_data(data, tranzactii: list) -> {bool, list}:
-    # returneaza o lista cu tranzactiile care nu au data == "data"
+    """
+    functie care returneaza tranzactiile care NU au data == "data"
+    preconditii :   data - string de forma dd/mm/yyyy
+                    tranzactii - lista de dictionare
+    postconditii: lista de dictionare sau False daca "data" nu este valida
+    """
     if corectitudine_data.data_valida(data):
-        data = get_data.get_data_with_default_format(data) # data este de forma dd/mm/yyyy
-        idx = 0
-        while not idx == len(tranzactii):
-            if tranzactii[idx]["data"] == data:
-                tranzactii.pop(idx)
-            else: 
-                idx += 1
+        data = data_default.get_data_with_default_format(data) # data este de forma dd/mm/yyyy
+        for tranzactie in tranzactii[:]: # [:] - copie a listei https://gist.github.com/alexlouden/9f1ab4354d1c68ae4c1c94126ac51a20
+            if get_data(tranzactie) == data:
+                tranzactii.remove(tranzactie)
         return tranzactii
     else:
         return False
 
 def stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii: list) -> {bool, list}:
-    # returneaza o lista cu tranzactiile care nu au data in intervalul [data_start, data_end]
+    """
+    functie care returneaza tranzactiile care NU au data intre "data_start" si "data_end"
+    preconditii :   data_start - string de forma dd/mm/yyyy
+                    data_end - string de forma dd/mm/yyyy
+                    tranzactii - lista de dictionare
+                    data_start <= data_end
+    postconditii: lista de dictionare sau False daca "data_start" sau "data_end" nu sunt valide
+    """
     if corectitudine_data.data_valida(data_start) and corectitudine_data.data_valida(data_end):
-        data_start = get_data.get_data_with_default_format(data_start)
-        data_end = get_data.get_data_with_default_format(data_end)
-        if not data_apartine_perioada.verify_data_is_in_range(data_start, data_start, data_end) :
+        data_start = data_default.get_data_with_default_format(data_start)
+        data_end = data_default.get_data_with_default_format(data_end)
+        if not data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(data_start, data_end) and not data_start == data_end:
             return False
         else:
-            idx = 0
-            while not idx == len(tranzactii):
-                if data_apartine_perioada.verify_data_is_in_range(data_start, tranzactii[idx]["data"], data_end):
-                    tranzactii.pop(idx)
-                else: 
-                    idx += 1
+            for tranzactie in tranzactii[:]:
+                if data_apartine_perioada.verify_data_is_in_range(data_start, get_data(tranzactie), data_end):
+                    tranzactii.remove(tranzactie)
         return tranzactii
     else:
         return False
     
 
 def stergere_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
-    # returneaza o lista cu tranzactiile care nu au tip == "tip"
+    """
+    functie care returneaza tranzactiile care NU au tipul "tip"
+    preconditii : tip_ales - string egal cu "IN" sau "OUT"
+                  tranzactii - lista de dictionare
+    postconditii: lista de dictionare sau False daca "tip_ales" nu este valid
+    """
     if tip.upper() == "IN" or tip.upper() == "OUT":
-        idx = 0
-        while not idx == len(tranzactii):
-            if tranzactii[idx]["tip"] == tip.upper():
-                tranzactii.pop(idx)
-            else: 
-                idx += 1
+        for tranzactie in tranzactii[:]:
+            if get_tip(tranzactie) == tip.upper():
+                tranzactii.remove(tranzactie)
         return tranzactii
     else:
         return False

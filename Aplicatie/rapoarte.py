@@ -1,43 +1,41 @@
-from Intrastructura import *
-
-def suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii: list) -> {int, bool}:
+from Infrastructura import *
+from Aplicatie.getter_setter_creaza_tranz import *   
+def suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii: list) -> {float, bool}:
     # returneaza suma tranzactiilor de tipul "tip"
     if tip.upper() == "IN" or tip.upper() == "OUT":
         suma = 0
-        dimensiune = len(tranzactii)
-        for pozitie in range(dimensiune):
-            if tranzactii[pozitie]["tip"] == tip.upper():
-                suma += float(tranzactii[pozitie]["suma"])
+        for tranzactie in tranzactii:
+            if get_tip(tranzactie) == tip.upper():
+                suma += float(get_suma(tranzactie))
         return suma
     else:
         return False
 
-def soldul_contului_la_o_data_specificata(data, tranzactii: list) -> {bool, list}:
+def soldul_contului_la_o_data_specificata(data, tranzactii: list) -> {float, bool}:
     if corectitudine_data.data_valida(data):
-        tranzactii = sortare_lista_crescator.sortare_crescatoare_lista(tranzactii)
+        tranzactii = sortare.sortare_crescatoare_lista(tranzactii)
         sold = 0
-        data = get_data.get_data_with_default_format(data)
-        for poz in range(len(tranzactii)):
-            if data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(tranzactii[poz]["data"], data) or tranzactii[poz]["data"] == data:
-                if tranzactii[poz]["tip"] == "IN":
-                    sold += float(tranzactii[poz]["suma"])
+        data = data_default.get_data_with_default_format(data)
+        for tranzactie in tranzactii:
+            if data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(get_data(tranzactie), data) or get_data(tranzactie) == data:
+                if get_tip(tranzactie) == "IN":
+                    sold += float(get_suma(tranzactie))
                 else:
-                    sold -= float(tranzactii[poz]["suma"])
-            else:
-                break
+                    sold -= float(get_suma(tranzactie))
         return sold
     return False
 
 def tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii: list) -> {bool, list}:
     if tip.upper() == "IN" or tip.upper() == "OUT":
         new_list_of_tranzaction = []
-        for elem in tranzactii:
-            if elem["tip"] == tip.upper(): 
-                new_list_of_tranzaction.append(elem)
-        new_list_of_tranzaction = sortare_lista_crescator.sortare_crescatoare_lista(new_list_of_tranzaction)
+        for tranzactie in tranzactii:
+            if get_tip(tranzactie) == tip.upper():
+                new_list_of_tranzaction = set_tranzactii(new_list_of_tranzaction, tranzactie)
+        new_list_of_tranzaction = sortare.sortare_crescatoare_lista(new_list_of_tranzaction)
         return new_list_of_tranzaction
     else:
         return False
+    
 def test_suma_tranzactiilor_de_un_anumit_tip():
     epsilon = 0.0000001
     assert abs(suma_tranzactiilor_de_un_anumit_tip("IN", [{'data':"23/10/2023", 'suma':"1740.32", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"OUT"}]) - 2640.32) < epsilon

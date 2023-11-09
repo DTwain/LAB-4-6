@@ -1,10 +1,11 @@
-from Intrastructura import *
+from Infrastructura import *
+from Aplicatie.getter_setter_creaza_tranz import set_tranzactii_de_index, set_tranzactii, creaza_tranzactie
 def add_tranzaction(data, suma, tip, tranzactii: list) -> {list, bool} :
     if corectitudine_data.data_valida(data) :
         if corectitudine_suma.suma_valida(suma) :
             if tip.upper() == "IN" or tip.upper() == "OUT":
-                data = get_data.get_data_with_default_format(data)
-                tranzactii.append({'data': data,'suma': suma, 'tip': tip.upper()})
+                tranzactie_noua = creaza_tranzactie(data, suma, tip)
+                tranzactii = set_tranzactii(tranzactii, tranzactie_noua)
                 return tranzactii
     return False
 
@@ -12,8 +13,10 @@ def update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii : list ) -> {l
     if corectitudine_data.data_valida(data) :
         if corectitudine_suma.suma_valida(suma) :
             if tip.upper() == "IN" or tip.upper() == "OUT":
-                tranzactii[nr_tranzactie]= {'data': get_data.get_data_with_default_format(data),'suma': suma, 'tip': tip.upper()}
-                return tranzactii
+                if nr_tranzactie >= 0 or nr_tranzactie < len(tranzactii):
+                    tranzactie_noua = creaza_tranzactie(data, suma, tip)
+                    tranzactii = set_tranzactii_de_index(tranzactii, nr_tranzactie, tranzactie_noua)
+                    return tranzactii
     return False 
 
 def test_add_tranzaction():

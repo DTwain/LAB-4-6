@@ -2,8 +2,7 @@
 Interfata aplicatiei in terminal 
 """
 from Aplicatie import *
-from Afis_verifica.output_verify_opp import operatie_de_forma_A_B
-from Afis_verifica.output_verify_opp import output 
+from Afis_verifica.output_verify_opp import operatie_de_forma_A_B, output 
 def meniu():
     print("Bine ati venit!")
     print("1. Adaugare de noi tranzactii:")
@@ -50,7 +49,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
+            tranzactii_anterioare = getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
 
     elif operatie == 1.2:
         print("Alege tranzactia pe care vrei sa o modifici: \n")
@@ -66,7 +65,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
+            tranzactii_anterioare = getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
     
     elif operatie == 2.1:
@@ -79,7 +78,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
+            tranzactii_anterioare = getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
 
     elif operatie == 2.2:
@@ -93,7 +92,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
+            tranzactii_anterioare = getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
 
     elif operatie == 2.3:
@@ -106,7 +105,7 @@ def opp(operatie):
             opp(operatie)
         else:
             tranzactii = rezultat_operatie
-            tranzactii_anterioare.append(undo.tranzactii_prelucrate(tranzactii))
+            tranzactii_anterioare = getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
             output(tranzactii)
         
     elif operatie == 3.1:
@@ -191,12 +190,11 @@ def opp(operatie):
             tranzactii = rezultat_operatie
             output(tranzactii)
     elif operatie == 5.2:
-        ##5.2 Elimină toate tranzacțiile mai mici decât o sumă dată care au tipul specificat
         print("Alegeti suma si tipul dupa care sa se filtreze tranzactiile:")
         output(tranzactii)
         suma = input("Introduceti suma: ")
         tipul = input("Introduceti tipul: IN/OUT: ")
-        rezultat_operatie = filtrare.filtrare_tranzactii_cu_suma_mai_mica_decat_x_si_cu_tipul_specificat(suma, tipul, tranzactii)
+        rezultat_operatie = filtrare.filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit(suma, tipul, tranzactii)
         if rezultat_operatie == False:
             print("DATELE INTRODUSE SUNT INVALIDE")
             opp(operatie)

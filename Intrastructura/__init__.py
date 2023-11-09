@@ -1,1 +1,0 @@
-__all__ = ["corectitudine_data", "corectitudine_suma", "get_data", "data_apartine_perioada", "sortare_lista_crescator"]

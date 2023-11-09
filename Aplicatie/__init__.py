@@ -1,1 +1,1 @@
-__all__ = [ "add_and_mod_tranzactii", "cautare_printre_tranzactii", "filtrare", "rapoarte", "stergere_tranzactii", "undo"]
+__all__ = [ "add_and_mod_tranzactii", "cautare_printre_tranzactii", "filtrare", "rapoarte", "stergere_tranzactii", "undo", "getter_setter_creaza_tranz"]
