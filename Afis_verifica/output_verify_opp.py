@@ -7,7 +7,7 @@ def output(tranzactii: list):
             print("Tranzactia ", poz + 1, ":")
             print("     Data: ", tranzactii[poz]["data"])
             print("     Suma: ", tranzactii[poz]["suma"])
-            print("     Tip: ", tranzactii[poz]["tip"] + "\n")
+            print("     Tip:  ", tranzactii[poz]["tip"] + "\n")
     
 def operatie_de_forma_A_B(operatie):
     #operatia: A.B cu A si B numere naturale
