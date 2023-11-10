@@ -1,101 +1,115 @@
 from Infrastructura import *
 from Aplicatie.getter_setter_creaza_tranz import *
-def stergere_tranzactii_dupa_data(data, tranzactii: list) -> {bool, list}:
-    """
-    functie care returneaza tranzactiile care NU au data == "data"
-    preconditii :   data - string de forma dd/mm/yyyy
-                    tranzactii - lista de dictionare
-    postconditii: lista de dictionare sau False daca "data" nu este valida
-    """
+from Aplicatie.add_and_mod_tranzactii import add_tranzaction
+
+def stergere_tranzactii_dupa_data(data, tranzactii: list):
     if corectitudine_data.data_valida(data):
         data = data_default.get_data_with_default_format(data) # data este de forma dd/mm/yyyy
         for tranzactie in tranzactii[:]: # [:] - copie a listei https://gist.github.com/alexlouden/9f1ab4354d1c68ae4c1c94126ac51a20
             if get_data(tranzactie) == data:
                 tranzactii.remove(tranzactie)
-        return tranzactii
-    else:
-        return False
+        return
+    raise ValueError("Data invalida")
 
-def stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii: list) -> {bool, list}:
-    """
-    functie care returneaza tranzactiile care NU au data intre "data_start" si "data_end"
-    preconditii :   data_start - string de forma dd/mm/yyyy
-                    data_end - string de forma dd/mm/yyyy
-                    tranzactii - lista de dictionare
-                    data_start <= data_end
-    postconditii: lista de dictionare sau False daca "data_start" sau "data_end" nu sunt valide
-    """
+def stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii: list):
     if corectitudine_data.data_valida(data_start) and corectitudine_data.data_valida(data_end):
         data_start = data_default.get_data_with_default_format(data_start)
         data_end = data_default.get_data_with_default_format(data_end)
         if not data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(data_start, data_end) and not data_start == data_end:
-            return False
+            raise ValueError("data_start > data_end")
         else:
             for tranzactie in tranzactii[:]:
                 if data_apartine_perioada.verify_data_is_in_range(data_start, get_data(tranzactie), data_end):
                     tranzactii.remove(tranzactie)
-        return tranzactii
-    else:
-        return False
+            return
+    raise ValueError("Data invalida")
     
 
-def stergere_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
-    """
-    functie care returneaza tranzactiile care NU au tipul "tip"
-    preconditii : tip_ales - string egal cu "IN" sau "OUT"
-                  tranzactii - lista de dictionare
-    postconditii: lista de dictionare sau False daca "tip_ales" nu este valid
-    """
+def stergere_tranzactii_dupa_tip(tip: str, tranzactii: list):
     if tip.upper() == "IN" or tip.upper() == "OUT":
         for tranzactie in tranzactii[:]:
             if get_tip(tranzactie) == tip.upper():
                 tranzactii.remove(tranzactie)
-        return tranzactii
-    else:
-        return False
-
+        return 
+    raise ValueError("TIPUL este invalid")
 
 def test_stergere_tranzactii_dupa_data():
-    rez = stergere_tranzactii_dupa_data("21/2/2022", [{'data': "12/3/2019", 'suma':"123", 'tip':"IN"}, {'data': "21/2/2022", 'suma':"323", 'tip':"OUT"}, {'data': "21/2/2022", 'suma':"100", 'tip':"IN"}])
-    assert rez == [{'data':"12/3/2019", 'suma':"123", 'tip':"IN"}]
+    tranzactii = []
+    add_tranzaction("12/2/2002", "3000", "IN", tranzactii)
+    add_tranzaction("18/6/2015", "1700", "OUT", tranzactii)
+    add_tranzaction("12/2/2022", "1000", "OUT", tranzactii)
+    add_tranzaction("12/2/2022", "250", "OUT", tranzactii)
 
-    rez = stergere_tranzactii_dupa_data("1/6/2017", [{'data':"12/3/2019", 'suma':"1000", 'tip':"IN"}, {'data':"1/6/2017", 'suma':"200", 'tip':"OUT"}, {'data':"21/2/2022", 'suma':"100", 'tip':"IN"}])
-    assert rez == [{'data':"12/3/2019", 'suma':"1000", 'tip':"IN"}, {'data':"21/2/2022", 'suma':"100", 'tip':"IN"}]
+    stergere_tranzactii_dupa_data("12/2/2022",tranzactii)
+    assert len(tranzactii) == 2
+    assert get_data(tranzactii[0]) == "12/2/2002"
+    assert get_suma(tranzactii[0]) == "3000"
+    assert get_tip(tranzactii[0]) == "IN"
 
-    rez = stergere_tranzactii_dupa_data("23/10/2023",[{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}])
-    assert rez == []
+    assert get_data(tranzactii[1]) == "18/6/2015"
+    assert get_suma(tranzactii[1]) == "1700"
+    assert get_tip(tranzactii[1]) == "OUT"
+
+    try: 
+        stergere_tranzactii_dupa_data("31/6/2020", tranzactii)
+        assert False
+    except:
+        assert True
     
-    rez = stergere_tranzactii_dupa_data("32/3/2020",[{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}])
-    assert rez == False
+    stergere_tranzactii_dupa_data("18/6/2015",tranzactii)
+    assert len(tranzactii) == 1
+    assert get_data(tranzactii[0]) == "12/2/2002"
+    assert get_suma(tranzactii[0]) == "3000"
+    assert get_tip(tranzactii[0]) == "IN"
 
-test_stergere_tranzactii_dupa_data()
+    stergere_tranzactii_dupa_data("12/2/2002",tranzactii)
+    assert len(tranzactii) == 0
 
+    
 def test_stergere_tranzactii_dupa_perioada():
-    rez = stergere_tranzactii_dupa_perioada("12/3/2019", "1/9/2019", [{'data':"11/3/2019", 'suma':"200", 'tip':"IN"}, {'data':"27/7/2019", 'suma':"323", 'tip':"OUT"}, {'data':"12/9/2019", 'suma':"100", 'tip':"IN"}])
-    assert rez == [{'data':"11/3/2019", 'suma':"200", 'tip':"IN"}, {'data':"12/9/2019", 'suma':"100", 'tip':"IN"}]
+    tranzactii = []
+    add_tranzaction("15/3/2022", "300", "IN", tranzactii)
+    add_tranzaction("20/3/2022", "100", "OUT", tranzactii)
+    add_tranzaction("30/3/2022", "500", "IN", tranzactii)
+    add_tranzaction("12/4/2022", "200", "OUT", tranzactii)
 
-    rez = stergere_tranzactii_dupa_perioada("1/6/2017", "21/2/2022", [{'data':"12/3/2019", 'suma':"1000", 'tip':"IN"}, {'data':"1/6/2017", 'suma':"200", 'tip':"OUT"}, {'data':"21/2/2022", 'suma':"100", 'tip':"IN"}])
-    assert rez == []
+    stergere_tranzactii_dupa_perioada("14/3/2022", "1/4/2022", tranzactii)
+    assert len(tranzactii) == 1
+    assert get_data(tranzactii[0]) == "12/4/2022"
+    assert get_suma(tranzactii[0]) == "200"
+    assert get_tip(tranzactii[0]) == "OUT"
 
-    rez = stergere_tranzactii_dupa_perioada("23/10/2023", "23/10/2023",[{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}])
-    assert rez == []
+    try:
+        stergere_tranzactii_dupa_perioada("1/4/2022", "31/3/2022", tranzactii)
+        assert False
+    except:
+        assert True
 
-    rez = stergere_tranzactii_dupa_perioada("23/10/2023", "23/10/2022",[{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}])
-    assert rez == False
-
-test_stergere_tranzactii_dupa_perioada()
+    stergere_tranzactii_dupa_perioada("1/4/2022", "31/4/2022", tranzactii)
+    assert len(tranzactii) == 0
 
 def test_stergere_tranzactii_dupa_tip():
-    rez = stergere_tranzactii_dupa_tip("IN", [{'data':"12/3/2019", 'suma':"400", 'tip':"IN"}, {'data':"21/2/2022", 'suma':"323.42", 'tip':"OUT"}, {'data':"14/7/2022", 'suma':"100", 'tip':"IN"}])
-    assert rez == [{'data':"21/2/2022", 'suma':"323.42", 'tip':"OUT"}]
+    tranzactii = []
+    add_tranzaction("15/3/2022", "300", "IN", tranzactii)
+    add_tranzaction("20/3/2022", "100", "OUT", tranzactii)
+    add_tranzaction("30/3/2022", "500", "IN", tranzactii)
+    add_tranzaction("12/4/2022", "200", "OUT", tranzactii)
 
-    rez = stergere_tranzactii_dupa_tip("OUT", [{'data':"25/5/2020", 'suma':"1500", 'tip':"IN"}, {'data':"15/6/2021", 'suma':"400", 'tip':"OUT"}, {'data':"21/2/2022", 'suma':"120", 'tip':"IN"}])
-    assert rez == [{'data':"25/5/2020", 'suma':"1500", 'tip':"IN"}, {'data':"21/2/2022", 'suma':"120", 'tip':"IN"}]
+    stergere_tranzactii_dupa_tip("Out", tranzactii)
+    assert len(tranzactii) == 2
+    assert get_data(tranzactii[1]) == "30/3/2022"
+    assert get_suma(tranzactii[1]) == "500"
+    assert get_tip(tranzactii[1]) == "IN"
 
-    rez = stergere_tranzactii_dupa_tip("in", [{'data':"29/2/2000", 'suma':"1400", 'tip':"IN"}, {'data':"13/5/2007", 'suma':"1200", 'tip':"OUT"}, {'data':"30/4/2000", 'suma':"700", 'tip':"IN"}])
-    assert rez == [{'data':"13/5/2007", 'suma':"1200", 'tip':"OUT"}]
+    stergere_tranzactii_dupa_tip("Out", tranzactii)
+    assert len(tranzactii) == 2
 
-    rez = stergere_tranzactii_dupa_tip("out", [{'data':"8/10/2003", 'suma':"650", 'tip':"OUT"}, {'data':"23/9/2004", 'suma':"400.50", 'tip':"OUT"}, {'data':"21/2/2022", 'suma':"1000", 'tip':"OUT"}])
-    assert rez == []
+    try: 
+        stergere_tranzactii_dupa_tip("Tipp", tranzactii)
+        assert False
+    except:
+        assert True
 
-test_stergere_tranzactii_dupa_tip()
+    stergere_tranzactii_dupa_tip("iN", tranzactii)
+    assert len(tranzactii) == 0
+

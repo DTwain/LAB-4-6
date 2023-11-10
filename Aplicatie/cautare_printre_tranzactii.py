@@ -1,6 +1,6 @@
 from Infrastructura import *
 from Aplicatie.getter_setter_creaza_tranz import *
-def filtrare_tranzactii_mai_mari_decat_suma(suma, tranzactii: list) -> {bool, list}:
+def cautare_tranzactii_mai_mari_decat_suma(suma, tranzactii: list) -> list:
     """
     functie care returneaza tranzactiile mai mari decat suma data
     preconditii: suma - float nenul
@@ -11,12 +11,11 @@ def filtrare_tranzactii_mai_mari_decat_suma(suma, tranzactii: list) -> {bool, li
         tranzactii_mai_mari_decat_suma = []
         for tranzactie in tranzactii:
             if float(get_suma(tranzactie)) > float(suma):
-                tranzactii_mai_mari_decat_suma = set_tranzactii(tranzactii_mai_mari_decat_suma, tranzactie)
+                set_tranzactii(tranzactii_mai_mari_decat_suma, tranzactie)
         return tranzactii_mai_mari_decat_suma
-    else:
-        return False
+    raise ValueError("SUMA INVALIDA")
 
-def filtrare_tranzactii_dupa_data_si_suma(data, suma, tranzactii: list) -> {bool, list}:
+def cautare_tranzactii_dupa_data_si_suma(data, suma, tranzactii: list) -> list:
     """
     functie care returneaza tranzactiile mai mari decat "suma", dar efectuate in inainte de "data"
     preconditii: suma - float nenul
@@ -30,11 +29,10 @@ def filtrare_tranzactii_dupa_data_si_suma(data, suma, tranzactii: list) -> {bool
             tranzactii_mai_mari_decat_suma_mai_mici_decat_data = []
             for tranzactie in tranzactii:
                 if float(get_suma(tranzactie)) > float(suma) and data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(get_data(tranzactie), data):
-                    tranzactii_mai_mari_decat_suma_mai_mici_decat_data = set_tranzactii(tranzactii_mai_mari_decat_suma_mai_mici_decat_data, tranzactie)
+                    set_tranzactii(tranzactii_mai_mari_decat_suma_mai_mici_decat_data, tranzactie)
             return tranzactii_mai_mari_decat_suma_mai_mici_decat_data
-    return False
-
-def filtrare_tranzactii_dupa_tip(tip_ales:str, tranzactii: list) -> {bool, list}:
+    raise ValueError("Date invalide")
+def cautare_tranzactii_dupa_tip(tip_ales:str, tranzactii: list) -> list:
     """
     functie care returneaza tranzactiile care au tipul "tip"
     preconditii : tip_ales - string egal cu "IN" sau "OUT"
@@ -46,37 +44,52 @@ def filtrare_tranzactii_dupa_tip(tip_ales:str, tranzactii: list) -> {bool, list}
         dimensiune = len(tranzactii)
         for tranzactie in tranzactii:
             if get_tip(tranzactie) == tip_ales.upper():
-                tranzactii_cu_tipul_dorit = set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
+                set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
         return tranzactii_cu_tipul_dorit
-    return False
+    raise ValueError("TIP INVALID")
 
 
 
-def test_filtrare_tranzactii_mai_mari_decat_suma():
-    assert filtrare_tranzactii_mai_mari_decat_suma("100", [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"50", 'tip':"IN"}]) == [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}]
-    assert filtrare_tranzactii_mai_mari_decat_suma("1000", [{'data':"23/10/2023", 'suma':"1740.15", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]) == [{'data':"23/10/2023", 'suma':"1740.15", 'tip':"IN"}]
-    assert filtrare_tranzactii_mai_mari_decat_suma("10000", [{'data':"23/10/2023", 'suma':"1740", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]) == []
-    assert filtrare_tranzactii_mai_mari_decat_suma("-100", [{'data':"23/10/2023", 'suma':"1740.55", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]) == False
-    assert filtrare_tranzactii_mai_mari_decat_suma("120.0d", [{'data':"23/10/2023", 'suma':"500.48", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]) == False
-    assert filtrare_tranzactii_mai_mari_decat_suma("0", [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]) == [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"200", 'tip':"IN"}]
+def test_cautare_tranzactii_mai_mari_decat_suma():
+    assert cautare_tranzactii_mai_mari_decat_suma("200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}]) == []
+    assert cautare_tranzactii_mai_mari_decat_suma("200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]) == [{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    assert cautare_tranzactii_mai_mari_decat_suma("200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"},{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]) == [{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    
+    try:
+        cautare_tranzactii_mai_mari_decat_suma("-200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert False
+    except ValueError:
+        assert True
+    
+    try:
+        cautare_tranzactii_mai_mari_decat_suma("1000d", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert False
+    except ValueError:
+        assert True
 
-test_filtrare_tranzactii_mai_mari_decat_suma()
+def test_cautare_tranzactii_dupa_data_si_suma():
+    assert cautare_tranzactii_dupa_data_si_suma("12/3/2019", "200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}]) == []
+    assert cautare_tranzactii_dupa_data_si_suma("12/3/2019", "200", [{'data': "11/2/2019",'suma': "1500", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]) == [{'data': "11/2/2019",'suma': "1500", 'tip': "OUT"}]
+    assert cautare_tranzactii_dupa_data_si_suma("12/3/2022", "200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"},{'data': "14/12/2020",'suma': "400", 'tip': "IN"}]) == [{'data': "14/12/2020",'suma': "400", 'tip': "IN"}]
+    
+    try:
+        cautare_tranzactii_dupa_data_si_suma("12/3/2019", "-200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert False
+    except ValueError:
+        assert True
+    
+    try:
+        cautare_tranzactii_dupa_data_si_suma("12/3/2019", "1000d", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert False
+    except ValueError:
+        assert True
 
-def test_filtrare_tranzactii_dupa_data_si_suma():
-    assert filtrare_tranzactii_dupa_data_si_suma("23/10/2023", "100", [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"22/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]) == [{'data':"22/10/2023", 'suma':"900", 'tip':"IN"}]
-    assert filtrare_tranzactii_dupa_data_si_suma("23/10/2023", "1000", [{'data':"14/9/2022", 'suma':"1740.15", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"200", 'tip':"IN"}]) == [{'data':"14/9/2022", 'suma':"1740.15", 'tip':"IN"}]
-    assert filtrare_tranzactii_dupa_data_si_suma("23/10/2023", "10000", [{'data':"23/10/2023", 'suma':"1740", 'tip':"IN"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"200", 'tip':"IN"}]) == []
-    assert filtrare_tranzactii_dupa_data_si_suma("23/10/2023", "-100", [{'data':"23/10/2023", 'suma':"1740.55", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"200", 'tip':"IN"}]) == False
-    assert filtrare_tranzactii_dupa_data_si_suma("23/10/2023", "120.0d", [{'data':"23/10/2023", 'suma':"500.48", 'tip':"OUT"}, {'data':"23/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"200", 'tip':"IN"}]) == False
-    assert filtrare_tranzactii_dupa_data_si_suma("29/2/2022", "1500", [{"data": "28/1/2022", "suma": "2000", "tip": "IN"}, {"data": "17/8/2021", "suma": "1100", "tip": "OUT"}]) == False
+    try:
+        cautare_tranzactii_dupa_data_si_suma("29/2/2022", "200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert False
+    except ValueError:
+        assert True
 
-test_filtrare_tranzactii_dupa_data_si_suma()
+test_cautare_tranzactii_dupa_data_si_suma()
+test_cautare_tranzactii_mai_mari_decat_suma()
 
-def test_filtrare_tranzactii_dupa_tip():
-    assert filtrare_tranzactii_dupa_tip("IN", [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"22/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]) == [{'data':"22/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]
-    assert filtrare_tranzactii_dupa_tip("iN", [{'data':"21/2/2022", 'suma':"760.13", 'tip':"IN"}, {'data':"28/5/2023", 'suma':"860", 'tip':"OUT"}, {'data':"12/6/2023", 'suma':"50", 'tip':"IN"}]) == [{'data':"21/2/2022", 'suma':"760.13", 'tip':"IN"}, {'data':"12/6/2023", 'suma':"50", 'tip':"IN"}]
-    assert filtrare_tranzactii_dupa_tip("OUT", [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}, {'data':"22/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]) == [{'data':"23/10/2023", 'suma':"1740", 'tip':"OUT"}]
-    assert filtrare_tranzactii_dupa_tip("OUT", [{'data':"22/10/2023", 'suma':"900", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]) == []
-    assert filtrare_tranzactii_dupa_tip('oUtt', [{'data':"15/7/2022", 'suma':"532", 'tip':"IN"}, {'data':"5/2/2022", 'suma':"700", 'tip':"IN"}, {'data':"21/10/2023", 'suma':"50", 'tip':"IN"}]) == False
-
-test_filtrare_tranzactii_dupa_tip()

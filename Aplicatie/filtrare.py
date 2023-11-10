@@ -11,7 +11,7 @@ def filtrare_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
         tranzactii_cu_tipul_dorit = []
         for tranzactie in tranzactii:
             if not get_tip(tranzactie) == tip.upper():
-                tranzactii_cu_tipul_dorit = set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
+                set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
         return tranzactii_cu_tipul_dorit
     else:
         return False
@@ -29,7 +29,7 @@ def filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferi
             new_list_of_tranzaction = []
             for tranzactie in tranzactii:
                 if not (float(get_suma(tranzactie)) < float(suma) and get_tip(tranzactie) == tip.upper()):
-                    new_list_of_tranzaction = set_tranzactii(new_list_of_tranzaction, tranzactie)
+                    set_tranzactii(new_list_of_tranzaction, tranzactie)
             return new_list_of_tranzaction
     return False
 

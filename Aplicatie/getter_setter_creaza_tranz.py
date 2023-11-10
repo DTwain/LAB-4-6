@@ -35,10 +35,10 @@ def set_tranzactii_de_index(tranzactii: list , index_tranzactie: int, tranzactie
             functia primeste o lista de disctionare si doreste sa modifice elementul din lista
             de pe pozitia tranzactii[index_tranzactie] cu tranzactie_noua
         postconditii:
-            returneaza tranzactii[index_tranzactie] = tranzactie_noua
+            modifica lista de tranzactii prin adaugarea unei noi tranzactii pe pozitia 
+            index_tranzactie.
     """
     tranzactii[index_tranzactie] = tranzactie_noua
-    return tranzactii
 
 def set_tranzactii(tranzactii: list, tranzactie_noua: dict):
     """
@@ -46,10 +46,9 @@ def set_tranzactii(tranzactii: list, tranzactie_noua: dict):
             functia primeste o lista de disctionare si doreste sa modifice elementul din lista
             de pe pozitia tranzactii[index_tranzactie] cu tranzactie_noua
         postconditii:
-            returneaza tranzactii[index_tranzactie] = tranzactie_noua
+            modifica lista de tranzactii prin adaugarea unei noi tranzactii la final
     """
     tranzactii.append(tranzactie_noua)
-    return tranzactii
 
 def creaza_tranzactie(data, suma, tip):
     """
@@ -82,18 +81,30 @@ def test_get_tip():
     assert get_tip({'data': "1/6/2017",'suma': "200", 'tip': "IN"}) == "IN"
 
 def test_set_tranzactii_de_index():
-    assert set_tranzactii_de_index([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], 0, {'data': "12/3/2019",'suma': "123", 'tip': "IN"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
-    assert set_tranzactii_de_index([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], 0, {'data': "12/3/2019",'suma': "123.12", 'tip': "OUT"}) == [{'data': "12/3/2019",'suma': "123.12", 'tip': "OUT"}]
-    assert set_tranzactii_de_index([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], 0, {'data': "12/3/2019",'suma': "-123.3", 'tip': "IN"}) == [{'data': "12/3/2019",'suma': "-123.3", 'tip': "IN"}]
-    assert set_tranzactii_de_index([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], 0, {'data': "29/2/2022",'suma': "1740", 'tip': "IN"}) == [{'data': "29/2/2022",'suma': "1740", 'tip': "IN"}]
-    assert set_tranzactii_de_index([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], 0, {'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}) == [{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    tranzactii = [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}]
+    set_tranzactii_de_index(tranzactii, 0, {'data': "12/3/2019",'suma': "123", 'tip': "IN"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
 
-def test_set_tranzactii():  
-    assert set_tranzactii([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], {'data': "12/3/2019",'suma': "123", 'tip': "IN"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}, {'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
-    assert set_tranzactii([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], {'data': "12/3/2019",'suma': "123.12", 'tip': "OUT"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}, {'data': "12/3/2019",'suma': "123.12", 'tip': "OUT"}]
-    assert set_tranzactii([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], {'data': "12/3/2019",'suma': "-123.3", 'tip': "IN"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}, {'data': "12/3/2019",'suma': "-123.3", 'tip': "IN"}]
-    assert set_tranzactii([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], {'data': "29/2/2022",'suma': "1740", 'tip': "IN"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}, {'data': "29/2/2022",'suma': "1740", 'tip': "IN"}]
-    assert set_tranzactii([{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}], {'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}) == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}, {'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    tranzactii = [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    set_tranzactii_de_index(tranzactii, 1, {'data': "12/3/2019",'suma': "123", 'tip': "IN"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
+    
+    tranzactii = [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}, {'data': "14/4/2022",'suma': "2000", 'tip': "OUT"}]
+    set_tranzactii_de_index(tranzactii, 2, {'data': "12/3/2019",'suma': "123", 'tip': "IN"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}, {'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
+
+def test_set_tranzactii():
+    tranzactii = []
+    set_tranzactii(tranzactii, {'data': "12/3/2019",'suma': "123", 'tip': "OUT"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}]
+
+    tranzactii = [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"}]
+    set_tranzactii(tranzactii, {'data': "12/3/2019",'suma': "123", 'tip': "IN"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
+    
+    tranzactii = [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}]
+    set_tranzactii(tranzactii, {'data': "12/3/2019",'suma': "123", 'tip': "IN"})
+    assert tranzactii == [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "1740", 'tip': "OUT"}, {'data': "12/3/2019",'suma': "123", 'tip': "IN"}]
 
 def run_teste():
     test_get_data()

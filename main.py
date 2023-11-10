@@ -5,5 +5,5 @@ tip_meniu = input("Alege tipul meniului ( CONSOLE / BATCH ): ")
 
 if tip_meniu == "CONSOLE":
     run_console()
-else :
+else:
     run_batch() 
