@@ -1,24 +1,15 @@
 from Infrastructura import *
 from Aplicatie.getter_setter_creaza_tranz import set_tranzactii_de_index, set_tranzactii, creaza_tranzactie, get_data, get_suma, get_tip
+from Aplicatie.validare_tranzactie import tranzactie_valida, tranzactie_valida_si_indice_tranzactie_valid
 def add_tranzaction(data, suma, tip, tranzactii: list):
-    if corectitudine_data.data_valida(data) :
-        if corectitudine_suma.suma_valida(suma) :
-            if tip.upper() == "IN" or tip.upper() == "OUT":
-                tranzactie_noua = creaza_tranzactie(data, suma, tip)
-                set_tranzactii(tranzactii, tranzactie_noua) # adauga tranzactia noua in lista de tranzactii
-                return
-    raise ValueError("Date invalide")
+    tranzactie_noua = creaza_tranzactie(data, suma, tip)
+    tranzactie_valida(tranzactie_noua)
+    set_tranzactii(tranzactii, tranzactie_noua) # adauga tranzactia noua in lista de tranzactii
 
 def update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii : list ):
-    if corectitudine_data.data_valida(data) :
-        if corectitudine_suma.suma_valida(suma) :
-            if tip.upper() == "IN" or tip.upper() == "OUT":
-                if nr_tranzactie >= 0 or nr_tranzactie < len(tranzactii):
-                    tranzactie_noua = creaza_tranzactie(data, suma, tip)
-                    set_tranzactii_de_index(tranzactii, nr_tranzactie, tranzactie_noua)
-                    return
-    raise ValueError("Date invalide")
-
+    tranzactie_noua = creaza_tranzactie(data, suma, tip)
+    tranzactie_valida_si_indice_tranzactie_valid(tranzactie_noua, nr_tranzactie, len(tranzactii))
+    set_tranzactii_de_index(tranzactii, nr_tranzactie, tranzactie_noua)
 
 def test_add_tranzaction():
     tranzactii = []
