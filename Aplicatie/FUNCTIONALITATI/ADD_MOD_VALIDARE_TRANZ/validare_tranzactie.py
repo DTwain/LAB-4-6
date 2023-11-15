@@ -1,6 +1,6 @@
 from Infrastructura.corectitudine_data import data_valida
 from Infrastructura.corectitudine_suma import suma_valida
-from Aplicatie.getter_setter_creaza_tranz import get_data, get_suma, get_tip
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip
 def tranzactie_valida(tranzactie: dict):
     data = get_data(tranzactie)
     if not data_valida(data):

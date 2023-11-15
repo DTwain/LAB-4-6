@@ -1,7 +1,13 @@
 """
 Interfata aplicatiei in terminal 
 """
-from Aplicatie import *
+from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_tranzaction, update_tranzaction
+from Aplicatie.FUNCTIONALITATI.cautare_printre_tranzactii import cautare_tranzactii_mai_mari_decat_suma, cautare_tranzactii_dupa_data_si_suma, cautare_tranzactii_dupa_tip
+from Aplicatie.FUNCTIONALITATI.filtrare import filtrare_tranzactii_dupa_tip, filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit
+from Aplicatie.FUNCTIONALITATI.rapoarte import suma_tranzactiilor_de_un_anumit_tip, soldul_contului_la_o_data_specificata, tranzactiile_IN_or_OUT_ordonate_dupa_suma
+from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii_dupa_data, stergere_tranzactii_dupa_perioada, stergere_tranzactii_dupa_tip
+from Aplicatie.FUNCTIONALITATI.undo import tranzactie_anterioara, tranzactii_prelucrate
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import set_tranzactii
 from Afis_verifica.output_verify_opp import operatie_de_forma_A_B, output 
 def meniu():
     print("Bine ati venit!")
@@ -34,8 +40,8 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         suma = input("Introduceti suma: ")
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            add_and_mod_tranzactii.add_tranzaction(data, suma, tip, tranzactii)
-            getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+            add_tranzaction(data, suma, tip, tranzactii)
+            set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
         except ValueError as ve:
             print("\n" + ve + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
@@ -49,8 +55,8 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         suma = input("Introduceti noua suma: ")
         tip = input("Introduceti noul tip: IN/OUT: ")
         try:
-            add_and_mod_tranzactii.update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii)
-            getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+            update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii)
+            set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
         except ValueError as ve:
             print("\n" + ve + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
@@ -60,8 +66,8 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         data = input("Introduceti data sub forma DD/MM/YYYY: ")
         try:
-            stergere_tranzactii.stergere_tranzactii_dupa_data(data, tranzactii)
-            getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+            stergere_tranzactii_dupa_data(data, tranzactii)
+            set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
         except ValueError as ve:
             print("\n" + ve + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
@@ -72,8 +78,8 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         data_start = input("Introduceti data de inceput sub forma DD/MM/YYYY: ")
         data_end = input("Introduceti data de sfarsit sub forma DD/MM/YYYY: ")
         try:
-            stergere_tranzactii.stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii)
-            getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+            stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii)
+            set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
         except ValueError as ve:
             print("\n" + ve + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
@@ -83,8 +89,8 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            stergere_tranzactii.stergere_tranzactii_dupa_tip(tip, tranzactii)
-            getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+            stergere_tranzactii_dupa_tip(tip, tranzactii)
+            set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
         except ValueError as ve:
             print("\n" + ve + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
@@ -95,7 +101,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         suma = input("Introduceti suma: ")
         try:
-            rezultat_operatie = cautare_printre_tranzactii.cautare_tranzactii_mai_mari_decat_suma(suma, tranzactii)
+            rezultat_operatie = cautare_tranzactii_mai_mari_decat_suma(suma, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -107,7 +113,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         data = input("Introduceti data sub forma DD/MM/YYYY: ")
         suma = input("Introduceti suma: ")
         try:
-            rezultat_operatie = cautare_printre_tranzactii.cautare_tranzactii_dupa_data_si_suma(data, suma, tranzactii)
+            rezultat_operatie = cautare_tranzactii_dupa_data_si_suma(data, suma, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -118,7 +124,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            rezultat_operatie = cautare_printre_tranzactii.cautare_tranzactii_dupa_tip(data, suma, tranzactii)
+            rezultat_operatie = cautare_tranzactii_dupa_tip(tip, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -129,7 +135,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            rezultat_operatie = rapoarte.suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii)
+            rezultat_operatie = suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii)
             print(f"Suma tranzactiilor de tipul {tip} este: {rezultat_operatie}")
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -140,7 +146,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         data = input("Introduceti data sub forma DD/MM/YYYY: ")
         try:
-            rezultat_operatie = rapoarte.soldul_contului_la_o_data_specificata(tip, tranzactii)
+            rezultat_operatie = soldul_contului_la_o_data_specificata(tip, tranzactii)
             print(f"Soldul contului la data de {data} este: {rezultat_operatie}")
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -151,17 +157,18 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            rezultat_operatie = rapoarte.tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii)
+            rezultat_operatie = tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
+            
     elif operatie == 5.1:
         print("Alege tipul tranzactiilor pe care doresti sa nu le ai in lista de tranzactii: \n")
         output(tranzactii)
         tip = input("Introduceti tipul: IN/OUT: ")
         try:
-            rezultat_operatie = filtrare.filtrare_tranzactii_dupa_tip(tip, tranzactii)
+            rezultat_operatie = filtrare_tranzactii_dupa_tip(tip, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
@@ -173,14 +180,14 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         suma = input("Introduceti suma: ")
         tipul = input("Introduceti tipul: IN/OUT: ")
         try:
-            rezultat_operatie = filtrare.filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit(suma, tipul, tranzactii)
+            rezultat_operatie = filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit(suma, tipul, tranzactii)
             output(rezultat_operatie)
         except ValueError as VE:
             print("\n" + VE + "\n")
             opp(operatie, tranzactii, tranzactii_anterioare)
             
     elif operatie == 6.0:
-        undo.tranzactie_anterioara(tranzactii, tranzactii_anterioare)
+        tranzactie_anterioara(tranzactii, tranzactii_anterioare)
 
 
 def run_console(nr_crt = 1):

@@ -1,38 +1,36 @@
 from Infrastructura import *
-from Aplicatie.getter_setter_creaza_tranz import *   
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip, set_tranzactii
+from Aplicatie.GETTER_SETTER_validari.validari import validare_suma, validare_data, validare_tip  
 def suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii: list) -> float:
     # returneaza suma tranzactiilor de tipul "tip"
-    if tip.upper() == "IN" or tip.upper() == "OUT":
-        suma = 0
-        for tranzactie in tranzactii:
-            if get_tip(tranzactie) == tip.upper():
-                suma += float(get_suma(tranzactie))
-        return suma
-    raise ValueError("TIP INVALID!!")
+    validare_tip(tip)  
+    suma = 0
+    for tranzactie in tranzactii:
+        if get_tip(tranzactie) == tip.upper():
+            suma += float(get_suma(tranzactie))
+    return suma
 
 def soldul_contului_la_o_data_specificata(data, tranzactii: list) -> float:
-    if corectitudine_data.data_valida(data):
-        sortare.sortare_crescatoare_lista(tranzactii)
-        sold = 0
-        data = data_default.get_data_with_default_format(data)
-        for tranzactie in tranzactii:
-            if data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(get_data(tranzactie), data) or get_data(tranzactie) == data:
-                if get_tip(tranzactie) == "IN":
-                    sold += float(get_suma(tranzactie))
-                else:
-                    sold -= float(get_suma(tranzactie))
-        return sold
-    raise ValueError("Data este invalida")
+    validare_data(data)
+    sortare.sortare_crescatoare_lista(tranzactii)
+    sold = 0
+    data = data_default.get_data_with_default_format(data)
+    for tranzactie in tranzactii:
+        if data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(get_data(tranzactie), data) or get_data(tranzactie) == data:
+            if get_tip(tranzactie) == "IN":
+                sold += float(get_suma(tranzactie))
+            else:
+                sold -= float(get_suma(tranzactie))
+    return sold
 
 def tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii: list) -> list:
-    if tip.upper() == "IN" or tip.upper() == "OUT":
-        new_list_of_tranzaction = []
-        for tranzactie in tranzactii:
-            if get_tip(tranzactie) == tip.upper():
-                set_tranzactii(new_list_of_tranzaction, tranzactie)
-        sortare.sortare_crescatoare_lista(new_list_of_tranzaction)
-        return new_list_of_tranzaction
-    raise ValueError("TIP INVALID")
+    validare_tip(tip)
+    new_list_of_tranzaction = []
+    for tranzactie in tranzactii:
+        if get_tip(tranzactie) == tip.upper():
+            set_tranzactii(new_list_of_tranzaction, tranzactie)
+    sortare.sortare_crescatoare_lista(new_list_of_tranzaction)
+    return new_list_of_tranzaction
     
 def test_suma_tranzactiilor_de_un_anumit_tip():
     epsilon = 0.0000001

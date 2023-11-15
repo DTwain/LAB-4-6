@@ -1,5 +1,5 @@
-from Aplicatie import *
-from Infrastructura import *
+from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_and_mod_tranzactii
+from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii
 from Afis_verifica.output_verify_opp import output
 
 def prelucrare_comanda(sir: str, tranzactii: list, tranzactii_anterioare: list):

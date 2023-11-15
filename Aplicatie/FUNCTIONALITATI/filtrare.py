@@ -1,5 +1,6 @@
 from Infrastructura import *
-from Aplicatie.getter_setter_creaza_tranz import *
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_suma, get_tip, set_tranzactii
+from Aplicatie.GETTER_SETTER_validari.validari import validare_suma, validare_tip
 def filtrare_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
     """
     functie care returneaza tranzactiile care NU au tipul "tip"
@@ -7,15 +8,13 @@ def filtrare_tranzactii_dupa_tip(tip: str, tranzactii: list) -> {bool, list}:
                   tranzactii - lista de dictionare
     postconditii: lista de dictionare sau False daca "tip_ales" nu este valid
     """
-    if tip.upper() == "IN" or tip.upper() == "OUT":
-        tranzactii_cu_tipul_dorit = []
-        for tranzactie in tranzactii:
-            if not get_tip(tranzactie) == tip.upper():
-                set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
-        return tranzactii_cu_tipul_dorit
-    else:
-        return False
-
+    validare_tip(tip)
+    tranzactii_cu_tipul_dorit = []
+    for tranzactie in tranzactii:
+        if not get_tip(tranzactie) == tip.upper():
+            set_tranzactii(tranzactii_cu_tipul_dorit, tranzactie)
+    return tranzactii_cu_tipul_dorit
+    
 def filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit(suma, tip, tranzactii: list) -> {bool, list}:
     """
     functie care returneaza tranzactiile care au tipul != "tip" si NU au suma mai mica decat "suma"
@@ -24,14 +23,13 @@ def filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferi
                  tranzactii - lista de dictionare
     postconditii: lista de dictionare sau False daca "suma" / "tip" nu sunt valide
     """
-    if corectitudine_suma.suma_valida(suma):
-        if tip.upper() == "IN" or tip.upper() == "OUT":
-            new_list_of_tranzaction = []
-            for tranzactie in tranzactii:
-                if not (float(get_suma(tranzactie)) < float(suma) and get_tip(tranzactie) == tip.upper()):
-                    set_tranzactii(new_list_of_tranzaction, tranzactie)
-            return new_list_of_tranzaction
-    return False
+    validare_suma(suma)
+    validare_tip(tip)
+    new_list_of_tranzaction = []
+    for tranzactie in tranzactii:
+        if not (float(get_suma(tranzactie)) < float(suma) and get_tip(tranzactie) == tip.upper()):
+            set_tranzactii(new_list_of_tranzaction, tranzactie)
+    return new_list_of_tranzaction
 
 
 def test_filtrare_tranzactii_dupa_tip():

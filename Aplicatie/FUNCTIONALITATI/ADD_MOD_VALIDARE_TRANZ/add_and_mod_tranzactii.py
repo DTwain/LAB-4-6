@@ -1,6 +1,7 @@
 from Infrastructura import *
-from Aplicatie.getter_setter_creaza_tranz import set_tranzactii_de_index, set_tranzactii, creaza_tranzactie, get_data, get_suma, get_tip
-from Aplicatie.validare_tranzactie import tranzactie_valida, tranzactie_valida_si_indice_tranzactie_valid
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import set_tranzactii_de_index, set_tranzactii, creaza_tranzactie, get_data, get_suma, get_tip
+from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.validare_tranzactie import tranzactie_valida, tranzactie_valida_si_indice_tranzactie_valid
+
 def add_tranzaction(data, suma, tip, tranzactii: list):
     tranzactie_noua = creaza_tranzactie(data, suma, tip)
     tranzactie_valida(tranzactie_noua)

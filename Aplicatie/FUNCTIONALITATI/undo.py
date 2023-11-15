@@ -1,6 +1,6 @@
 from Infrastructura import data_default
-from Aplicatie.getter_setter_creaza_tranz import creaza_tranzactie, set_tranzactii, get_data, get_suma, get_tip
-from Afis_verifica.output_verify_opp import output
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import creaza_tranzactie, set_tranzactii, get_data, get_suma, get_tip
+from Aplicatie.GETTER_SETTER_validari.validari import validare_lungime_lista
 def tranzactii_prelucrate(tranzactii : list) -> list:
     tranzactii_prelucrate = []
     for tranzactie in tranzactii:
@@ -9,14 +9,13 @@ def tranzactii_prelucrate(tranzactii : list) -> list:
     return tranzactii_prelucrate
 
 def tranzactie_anterioara(tranzactii: list, tranzactii_precedente: list):
-    if len(tranzactii_precedente) == 0: 
-        raise ValueError("NU SE POATE DA UNDO")
+    validare_lungime_lista(tranzactii_precedente)
     tranzactii_precedente.pop()
     if len(tranzactii_precedente) == 0:
         tranzactii.clear()
     else:
         tranzactii.clear()
-        tranzactii.extend(tranzactii_precedente[-1])
+        tranzactii.extend(tranzactii_precedente[-1]) 
  
 def test_tranzactii_prelucrate():
     tranzactii = []

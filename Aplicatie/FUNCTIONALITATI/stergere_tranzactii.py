@@ -1,37 +1,30 @@
 from Infrastructura import *
-from Aplicatie.getter_setter_creaza_tranz import *
-from Aplicatie.add_and_mod_tranzactii import add_tranzaction
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip, set_tranzactii
+from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_tranzaction
+from Aplicatie.GETTER_SETTER_validari.validari import validare_data, validare_tip, validare_data_start_mai_mica_decat_data_end
 
 def stergere_tranzactii_dupa_data(data, tranzactii: list):
-    if corectitudine_data.data_valida(data):
-        data = data_default.get_data_with_default_format(data) # data este de forma dd/mm/yyyy
-        for tranzactie in tranzactii[:]: # [:] - copie a listei https://gist.github.com/alexlouden/9f1ab4354d1c68ae4c1c94126ac51a20
-            if get_data(tranzactie) == data:
-                tranzactii.remove(tranzactie)
-        return
-    raise ValueError("Data invalida")
+    validare_data(data)
+    data = data_default.get_data_with_default_format(data) # data este de forma dd/mm/yyyy
+    for tranzactie in tranzactii[:]: # [:] - copie a listei https://gist.github.com/alexlouden/9f1ab4354d1c68ae4c1c94126ac51a20
+        if get_data(tranzactie) == data:
+            tranzactii.remove(tranzactie)
 
 def stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii: list):
-    if corectitudine_data.data_valida(data_start) and corectitudine_data.data_valida(data_end):
-        data_start = data_default.get_data_with_default_format(data_start)
-        data_end = data_default.get_data_with_default_format(data_end)
-        if not data_apartine_perioada.verificare_data_1_mai_mica_decat_data_2(data_start, data_end) and not data_start == data_end:
-            raise ValueError("data_start > data_end")
-        else:
-            for tranzactie in tranzactii[:]:
-                if data_apartine_perioada.verify_data_is_in_range(data_start, get_data(tranzactie), data_end):
-                    tranzactii.remove(tranzactie)
-            return
-    raise ValueError("Data invalida")
+    validare_data(data_start)
+    validare_data(data_end)
+    data_start = data_default.get_data_with_default_format(data_start)
+    data_end = data_default.get_data_with_default_format(data_end)
+    validare_data_start_mai_mica_decat_data_end(data_start, data_end)
+    for tranzactie in tranzactii[:]:
+        if data_apartine_perioada.verify_data_is_in_range(data_start, get_data(tranzactie), data_end):
+            tranzactii.remove(tranzactie)
     
-
 def stergere_tranzactii_dupa_tip(tip: str, tranzactii: list):
-    if tip.upper() == "IN" or tip.upper() == "OUT":
-        for tranzactie in tranzactii[:]:
-            if get_tip(tranzactie) == tip.upper():
-                tranzactii.remove(tranzactie)
-        return 
-    raise ValueError("TIPUL este invalid")
+    validare_tip(tip)
+    for tranzactie in tranzactii[:]:
+        if get_tip(tranzactie) == tip.upper():
+            tranzactii.remove(tranzactie)
 
 def test_stergere_tranzactii_dupa_data():
     tranzactii = []
