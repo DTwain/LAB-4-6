@@ -1,5 +1,5 @@
 from Infrastructura import *
-from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip, set_tranzactii
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip
 from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_tranzaction
 from Aplicatie.GETTER_SETTER_validari.validari import validare_data, validare_tip, validare_data_start_mai_mica_decat_data_end
 

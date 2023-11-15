@@ -1,12 +1,12 @@
 from Infrastructura.corectitudine_data import data_valida
-from Infrastructura.corectitudine_suma import suma_valida
+from Infrastructura.corectitudine_suma import suma_valida_tranzactie
 from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data, get_suma, get_tip
 def tranzactie_valida(tranzactie: dict):
     data = get_data(tranzactie)
     if not data_valida(data):
         raise ValueError("Data invalida!")
     suma = get_suma(tranzactie)
-    if not suma_valida(suma):
+    if not suma_valida_tranzactie(suma):
         raise ValueError("Suma invalida!")
     tip = get_tip(tranzactie)
     if tip != "IN" and tip != "OUT":
@@ -17,7 +17,7 @@ def tranzactie_valida_si_indice_tranzactie_valid(tranzactie: dict, nr_tranzactie
     if not data_valida(data):
         raise ValueError("Data invalida!")
     suma = get_suma(tranzactie)
-    if not suma_valida(suma):
+    if not suma_valida_tranzactie(suma):
         raise ValueError("Suma invalida!")
     tip = get_tip(tranzactie)
     if tip != "IN" and tip != "OUT":

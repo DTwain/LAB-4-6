@@ -54,12 +54,18 @@ def test_cautare_tranzactii_mai_mari_decat_suma():
     
     try:
         cautare_tranzactii_mai_mari_decat_suma("-200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        assert True
+    except ValueError:
+        assert False
+    
+    try:
+        cautare_tranzactii_mai_mari_decat_suma("1000d", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
         assert False
     except ValueError:
         assert True
     
     try:
-        cautare_tranzactii_mai_mari_decat_suma("1000d", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        cautare_tranzactii_mai_mari_decat_suma("--200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
         assert False
     except ValueError:
         assert True
@@ -71,9 +77,9 @@ def test_cautare_tranzactii_dupa_data_si_suma():
     
     try:
         cautare_tranzactii_dupa_data_si_suma("12/3/2019", "-200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
-        assert False
-    except ValueError:
         assert True
+    except ValueError:
+        assert False
     
     try:
         cautare_tranzactii_dupa_data_si_suma("12/3/2019", "1000d", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
@@ -82,7 +88,7 @@ def test_cautare_tranzactii_dupa_data_si_suma():
         assert True
 
     try:
-        cautare_tranzactii_dupa_data_si_suma("29/2/2022", "200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
+        cautare_tranzactii_dupa_data_si_suma("29/2/2022", "--200", [{'data': "12/3/2019",'suma': "123", 'tip': "OUT"},{'data': "26/12/2022",'suma': "-1740", 'tip': "OUT"}])
         assert False
     except ValueError:
         assert True

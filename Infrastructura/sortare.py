@@ -1,5 +1,5 @@
 from Infrastructura import data_apartine_perioada
-from Aplicatie.getter_setter_creaza_tranz import get_data
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import get_data
 def sortare_crescatoare_lista(tranzactii: list):
     for i in range(len(tranzactii)-1):
         for j in range(i+1, len(tranzactii)):

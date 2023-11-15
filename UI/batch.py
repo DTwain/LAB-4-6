@@ -1,6 +1,9 @@
-from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_and_mod_tranzactii
-from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii
-from Afis_verifica.output_verify_opp import output
+from Aplicatie.FUNCTIONALITATI.ADD_MOD_VALIDARE_TRANZ.add_and_mod_tranzactii import add_tranzaction, update_tranzaction
+from Aplicatie.FUNCTIONALITATI.rapoarte import suma_tranzactiilor_de_un_anumit_tip, soldul_contului_la_o_data_specificata, tranzactiile_IN_or_OUT_ordonate_dupa_suma
+from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii_dupa_data, stergere_tranzactii_dupa_perioada, stergere_tranzactii_dupa_tip
+from Aplicatie.FUNCTIONALITATI.undo import tranzactie_anterioara, tranzactii_prelucrate
+from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import set_tranzactii
+from Afis_verifica.output_verify_opp import output 
 
 def prelucrare_comanda(sir: str, tranzactii: list, tranzactii_anterioare: list):
     sir = sir.split(" ")
@@ -8,42 +11,42 @@ def prelucrare_comanda(sir: str, tranzactii: list, tranzactii_anterioare: list):
     while not idx == len(sir):
         try:
             if sir[idx] == "ADD":
-                add_and_mod_tranzactii.add_tranzaction(sir[idx + 1], sir[idx + 2], sir[idx + 3], tranzactii)
-                getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+                add_tranzaction(sir[idx + 1], sir[idx + 2], sir[idx + 3], tranzactii)
+                set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
                 idx = len(sir)
             
             elif sir[idx] == "DEL":
                 if sir[idx + 1] == "DATA":
-                    stergere_tranzactii.stergere_tranzactii_dupa_data(sir[idx + 2], tranzactii)
+                    stergere_tranzactii_dupa_data(sir[idx + 2], tranzactii)
         
                 elif sir[idx + 1] == "PERIOADA":
-                    stergere_tranzactii.stergere_tranzactii_dupa_perioada(sir[idx + 2], sir[idx + 3], tranzactii)
+                    stergere_tranzactii_dupa_perioada(sir[idx + 2], sir[idx + 3], tranzactii)
                     
                 elif sir[idx + 1] == "TIP":
-                    stergere_tranzactii.stergere_tranzactii_dupa_tip(sir[idx + 2], tranzactii)
+                    stergere_tranzactii_dupa_tip(sir[idx + 2], tranzactii)
                 idx = len(sir)
-                getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+                set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
                 
                 output(tranzactii)
             
             elif sir[idx] == "UNDO":
-                undo.tranzactie_anterioara(tranzactii, tranzactii_anterioare)
+                tranzactie_anterioara(tranzactii, tranzactii_anterioare)
                 idx = len(sir)
                 output(tranzactii)
 
             elif sir[idx] == "UPDATE":
-                add_and_mod_tranzactii.update_tranzaction(sir[idx + 1], sir[idx + 2], sir[idx + 3], int(sir[idx + 4]) - 1, tranzactii) 
-                getter_setter_creaza_tranz.set_tranzactii(tranzactii_anterioare, undo.tranzactii_prelucrate(tranzactii))
+                update_tranzaction(sir[idx + 1], sir[idx + 2], sir[idx + 3], int(sir[idx + 4]) - 1, tranzactii) 
+                set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
                 idx = len(sir)  
 
             elif sir[idx] == "RAPORT":
                 rezultat_operatie = 0
                 if sir[idx + 1] == "TIP":
-                    rezultat_operatie = rapoarte.suma_tranzactiilor_de_un_anumit_tip(sir[idx + 2], tranzactii)
+                    rezultat_operatie = suma_tranzactiilor_de_un_anumit_tip(sir[idx + 2], tranzactii)
                 elif sir[idx + 1] == "DATA":
-                    rezultat_operatie = rapoarte.soldul_contului_la_o_data_specificata(sir[idx + 2], tranzactii)
+                    rezultat_operatie = soldul_contului_la_o_data_specificata(sir[idx + 2], tranzactii)
                 elif sir[idx + 1] == "SORTARE":
-                    rezultat_operatie = rapoarte.tranzactiile_IN_or_OUT_ordonate_dupa_suma(sir[idx + 2], tranzactii)
+                    rezultat_operatie = tranzactiile_IN_or_OUT_ordonate_dupa_suma(sir[idx + 2], tranzactii)
                 if type(rezultat_operatie) == list:
                     output(rezultat_operatie)
                 else:
