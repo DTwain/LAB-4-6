@@ -40,8 +40,8 @@ def operatia_de_adaugare_tranzactie(tranzactii, tranzactii_anterioare, operatie)
     try:
         add_tranzaction(data, suma, tip, tranzactii)
         set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
-    except ValueError as ve:
-        print("\n" + ve + "\n")
+    except ValueError as VE:
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_updatare_lista_tranzactii(tranzactii, tranzactii_anterioare, operatie):
@@ -55,8 +55,8 @@ def operatia_de_updatare_lista_tranzactii(tranzactii, tranzactii_anterioare, ope
     try:
         update_tranzaction(data, suma, tip, nr_tranzactie, tranzactii)
         set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
-    except ValueError as ve:
-        print("\n" + ve + "\n")
+    except ValueError as VE:
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_stergere_tranzactii_dupa_data(tranzactii, tranzactii_anterioare, operatie):
@@ -66,8 +66,8 @@ def operatia_de_stergere_tranzactii_dupa_data(tranzactii, tranzactii_anterioare,
     try:
         stergere_tranzactii_dupa_data(data, tranzactii)
         set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
-    except ValueError as ve:
-        print("\n" + ve + "\n")
+    except ValueError as VE:
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_stergere_tranzactii_dupa_perioada(tranzactii, tranzactii_anterioare, operatie):
@@ -78,8 +78,8 @@ def operatia_de_stergere_tranzactii_dupa_perioada(tranzactii, tranzactii_anterio
     try:
         stergere_tranzactii_dupa_perioada(data_start, data_end, tranzactii)
         set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
-    except ValueError as ve:
-        print("\n" + ve + "\n")
+    except ValueError as VE:
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_stergere_tranzactii_dupa_tip(tranzactii, tranzactii_anterioare, operatie):
@@ -89,8 +89,8 @@ def operatia_de_stergere_tranzactii_dupa_tip(tranzactii, tranzactii_anterioare, 
     try:
         stergere_tranzactii_dupa_tip(tip, tranzactii)
         set_tranzactii(tranzactii_anterioare, tranzactii_prelucrate(tranzactii))
-    except ValueError as ve:
-        print("\n" + ve + "\n")
+    except ValueError as VE:
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_cautare_tranzactii_mai_mari_decat_suma(tranzactii, tranzactii_anterioare, operatie):
@@ -101,7 +101,7 @@ def operatia_de_cautare_tranzactii_mai_mari_decat_suma(tranzactii, tranzactii_an
         rezultat_operatie = cautare_tranzactii_mai_mari_decat_suma(suma, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_cautare_tranzactii_dupa_data_si_suma(tranzactii, tranzactii_anterioare, operatie):
@@ -113,7 +113,7 @@ def operatia_de_cautare_tranzactii_dupa_data_si_suma(tranzactii, tranzactii_ante
         rezultat_operatie = cautare_tranzactii_dupa_data_si_suma(data, suma, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def operatia_de_cautare_tranzactii_dupa_tip(tranzactii, tranzactii_anterioare, operatie):
@@ -124,7 +124,7 @@ def operatia_de_cautare_tranzactii_dupa_tip(tranzactii, tranzactii_anterioare, o
         rezultat_operatie = cautare_tranzactii_dupa_tip(tip, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def raport_suma_tranzactiilor_tip(tranzactii, tranzactii_anterioare, operatie):
@@ -135,7 +135,7 @@ def raport_suma_tranzactiilor_tip(tranzactii, tranzactii_anterioare, operatie):
         rezultat_operatie = suma_tranzactiilor_de_un_anumit_tip(tip, tranzactii)
         print(f"Suma tranzactiilor de tipul {tip} este: {rezultat_operatie}")
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def raport_sold_la_data_de(tranzactii, tranzactii_anterioare, operatie):
@@ -146,7 +146,7 @@ def raport_sold_la_data_de(tranzactii, tranzactii_anterioare, operatie):
         rezultat_operatie = soldul_contului_la_o_data_specificata(data, tranzactii)
         print(f"Soldul contului la data de {data} este: {rezultat_operatie}")
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
     
 def raport_tranzactii_IN_or_OUT_ordonate_dupa_suma(tranzactii, tranzactii_anterioare, operatie):
@@ -157,7 +157,7 @@ def raport_tranzactii_IN_or_OUT_ordonate_dupa_suma(tranzactii, tranzactii_anteri
         rezultat_operatie = tranzactiile_IN_or_OUT_ordonate_dupa_suma(tip, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def filtrare_prin_eliminare_tranzactii_dupa_tip(tranzactii, tranzactii_anterioare, operatie):
@@ -168,7 +168,7 @@ def filtrare_prin_eliminare_tranzactii_dupa_tip(tranzactii, tranzactii_anterioar
         rezultat_operatie = filtrare_tranzactii_dupa_tip(tip, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
 
 def filtrare_prin_eliminare_tranzactii_dupa_suma_si_tip(tranzactii, tranzactii_anterioare, operatie):
@@ -180,8 +180,9 @@ def filtrare_prin_eliminare_tranzactii_dupa_suma_si_tip(tranzactii, tranzactii_a
         rezultat_operatie = filtrare_tranzactii_cu_suma_mai_mare_egal_cu_x_si_cu_tipul_specificat_diferit(suma, tipul, tranzactii)
         output(rezultat_operatie)
     except ValueError as VE:
-        print("\n" + VE + "\n")
+        print(f"\n{VE}\n")
         opp(operatie, tranzactii, tranzactii_anterioare)
+        
 def opp(operatie, tranzactii, tranzactii_anterioare):
     
     if operatie == 1.1:
@@ -212,6 +213,7 @@ def opp(operatie, tranzactii, tranzactii_anterioare):
         filtrare_prin_eliminare_tranzactii_dupa_suma_si_tip(tranzactii, tranzactii_anterioare, operatie)
     elif operatie == 6.0:
         tranzactie_anterioara(tranzactii, tranzactii_anterioare)
+        output(tranzactii)
 
 
 def run_console(nr_crt = 1):
