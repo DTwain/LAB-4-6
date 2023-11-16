@@ -3,7 +3,7 @@ from Aplicatie.FUNCTIONALITATI.rapoarte import suma_tranzactiilor_de_un_anumit_t
 from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii_dupa_data, stergere_tranzactii_dupa_perioada, stergere_tranzactii_dupa_tip
 from Aplicatie.FUNCTIONALITATI.undo import tranzactie_anterioara, tranzactii_prelucrate
 from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import set_tranzactii
-from Afis_verifica.output_verify_opp import output 
+from UI.afisare_tranzactii import output 
 
 def prelucrare_comanda(sir: str, tranzactii: list, tranzactii_anterioare: list):
     sir = sir.split(" ")

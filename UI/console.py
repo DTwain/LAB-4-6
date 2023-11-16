@@ -8,7 +8,8 @@ from Aplicatie.FUNCTIONALITATI.rapoarte import suma_tranzactiilor_de_un_anumit_t
 from Aplicatie.FUNCTIONALITATI.stergere_tranzactii import stergere_tranzactii_dupa_data, stergere_tranzactii_dupa_perioada, stergere_tranzactii_dupa_tip
 from Aplicatie.FUNCTIONALITATI.undo import tranzactie_anterioara, tranzactii_prelucrate
 from Aplicatie.GETTER_SETTER_validari.getter_setter_creaza_tranz import set_tranzactii
-from Afis_verifica.output_verify_opp import operatie_de_forma_A_B, output 
+from Infrastructura.operatie_valida import  operatie_de_forma_A_B
+from UI.afisare_tranzactii import output
 def meniu():
     print("Bine ati venit!")
     print("1. Adaugare de noi tranzactii:")
